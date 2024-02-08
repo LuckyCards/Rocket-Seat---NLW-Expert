@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import logo from "./assets/logo-nlw-expert.svg";
 import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
+import { toast } from "sonner";
 
 interface Note {
   id: string;
@@ -42,6 +43,16 @@ export function App() {
 
     setNotes(notesArray);
     localStorage.setItem("notes", JSON.stringify(notesArray));
+
+    toast.warning("Nota apagada.", {
+      action: {
+        label: "Desfazer",
+        onClick: () => {
+          localStorage.setItem("notes", JSON.stringify(notes));
+          setNotes(notes);
+        },
+      },
+    });
   }
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>) {
